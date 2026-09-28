@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# State Hostel Portal
 
-## Getting Started
+A beginner-friendly hostel management portal built with Next.js App Router, MongoDB, Mongoose, and plain JavaScript.
 
-First, run the development server:
+## Overview
+
+This application allows students to register, log in, apply for hostel accommodation, upload required documents, and monitor application status. Admin users can review applications, approve or reject them, and allocate rooms.
+
+## Technologies Used
+
+- Next.js 16 App Router
+- JavaScript only
+- MongoDB
+- Mongoose
+- JWT-based authentication
+- Plain CSS styling
+
+## Installation
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create a `.env.local` file based on `.env.example`.
+3. Start MongoDB locally or use a cloud MongoDB connection string.
+4. Run the app:
+   ```bash
+   npm run dev
+   ```
+
+## MongoDB Setup
+
+Ensure MongoDB is running locally on:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+mongodb://127.0.0.1:27017/state-hostel-portal
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You can also use a MongoDB Atlas connection string in `MONGODB_URI`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file:
 
-## Learn More
+```env
+MONGODB_URI=mongodb://127.0.0.1:27017/state-hostel-portal
+JWT_SECRET=your_super_secure_secret
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Seed the Database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+node scripts/seed.js
+```
 
-## Deploy on Vercel
+This creates:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 1 admin account
+- 1 student account
+- 2 hostels
+- 10+ rooms
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Demo Login Credentials
+
+### Student
+- Email: `student@statehostel.edu`
+- Password: `student123`
+
+### Admin
+- Email: `admin@statehostel.edu`
+- Password: `admin123`
+
+## Project Structure
+
+```text
+app/
+  admin/
+  api/
+  login/
+  register/
+  student/
+components/
+lib/
+models/
+public/
+scripts/
+```
+
+## Main API Routes
+
+### Authentication
+- POST `/api/auth/register`
+- POST `/api/auth/login`
+- POST `/api/auth/logout`
+
+### Student
+- GET `/api/student/profile`
+- POST `/api/applications`
+- GET `/api/applications/my`
+- GET `/api/applications/:id`
+- PUT `/api/applications/:id`
+
+### Admin
+- GET `/api/admin/dashboard`
+- GET `/api/admin/applications`
+- GET `/api/admin/applications/:id`
+- PUT `/api/admin/applications/:id/status`
+- POST `/api/admin/rooms/allocate`
+
+### Hostels and Rooms
+- GET `/api/hostels`
+- GET `/api/rooms`
+
+## Notes
+
+- Passwords are hashed using bcrypt before saving.
+- Students can only access their own applications.
+- Admin users can review applications and allocate rooms.
+- The UI uses clean, responsive card layouts and beginner-friendly forms.
